@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PageValidations.Pages.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:control="clr-namespace:PageValidations.Controls"
+    Title="Login"
+    BackgroundColor="{StaticResource PageBackground}">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!--  Welcome Text  -->
+        <VerticalStackLayout
+            Margin="0,20,0,0"
+            HorizontalOptions="Center"
+            VerticalOptions="FillAndExpand">
+            <Label
+                FontAttributes="Bold"
+                FontSize="Large"
+                Text="Welcome Back Again!" />
+        </VerticalStackLayout>
+        <!--  Login Container  -->
+        <VerticalStackLayout
+            Grid.Row="1"
+            Spacing="20"
+            VerticalOptions="Center">
+            <Border
+                Margin="20,0"
+                Padding="20"
+                BackgroundColor="{StaticResource ControlBackground}"
+                Shadow="{StaticResource ControlShadow}"
+                Stroke="{StaticResource Gray100}"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="1">
+                <VerticalStackLayout Spacing="10">
+                    <control:EntryControl
+                        Errors="{Binding Model.Validator[UserName]}"
+                        Placeholder="Enter User Name"
+                        Text="{Binding Model.UserName, Mode=TwoWay}" />
+                    <control:EntryControl
+                        Errors="{Binding Model.Validator[Password]}"
+                        IsPassword="True"
+                        Placeholder="Enter Password"
+                        Text="{Binding Model.Password, Mode=TwoWay}" />
+                    <Button Command="{Binding LoginCommand}" Text="Login" />
+                </VerticalStackLayout>
+            </Border>
+            <Label
+                FontAttributes="Bold"
+                FontSize="Subtitle"
+                HorizontalOptions="Center"
+                Text="Forgot Password?"
+                TextColor="{StaticResource Primary}"
+                TextDecorations="Underline">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+        </VerticalStackLayout>
+        <!--  Registration Text  -->
+        <HorizontalStackLayout
+            Grid.Row="2"
+            Margin="0,0,0,40"
+            HorizontalOptions="Center"
+            Spacing="5"
+            VerticalOptions="Center">
+            <Label
+                x:Name="lblRegistration"
+                FontSize="Subtitle"
+                Text="Don't have an account? " />
+            <Label
+                FontSize="Subtitle"
+                Text="Register"
+                TextColor="{StaticResource Primary}"
+                TextDecorations="Underline">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding RegistrationCommand}" NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>

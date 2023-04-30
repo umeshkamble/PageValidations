@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="PageValidations.Controls.EntryControl"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:PageValidations.Converters"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="entryview">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:ValidationErrorConverter x:Key="ErrorConverter" />
+            <converter:HasValidationErrorConverter x:Key="HasErrorConverter" />
+            <toolkit:IsStringNotNullOrEmptyConverter x:Key="IsStringNotNullOrEmptyConverter" />
+            <Shadow
+                x:Key="EntryShadow"
+                Brush="Gray"
+                Opacity="0.2"
+                Radius="10"
+                Offset="10,5" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <Grid
+        ColumnSpacing="0"
+        RowDefinitions="auto,auto,auto"
+        RowSpacing="5">
+        <Label
+            Margin="0,10,0,5"
+            IsVisible="{Binding EntryTitle, Source={x:Reference entryview}, Converter={StaticResource IsStringNotNullOrEmptyConverter}}"
+            Text="{Binding EntryTitle, Source={x:Reference entryview}}" />
+        <Border
+            Grid.Row="1"
+            Padding="10,0"
+            BackgroundColor="{StaticResource ControlBackground}"
+            HeightRequest="40"
+            Shadow="{StaticResource EntryShadow}"
+            Stroke="{StaticResource Gray100}"
+            StrokeShape="RoundRectangle 8"
+            StrokeThickness="1">
+            <Grid ColumnDefinitions="*,Auto">
+                <Entry
+                    HorizontalOptions="FillAndExpand"
+                    IsEnabled="{Binding IsEnabled, Source={x:Reference entryview}}"
+                    IsPassword="{Binding IsPassword, Source={x:Reference entryview}}"
+                    Keyboard="{Binding Keyboard, Source={x:Reference entryview}}"
+                    MaxLength="{Binding MaxLength, Source={x:Reference entryview}}"
+                    Placeholder="{Binding Placeholder, Source={x:Reference entryview}}"
+                    PlaceholderColor="{StaticResource Gray600}"
+                    Text="{Binding Text, Source={x:Reference entryview}, Mode=TwoWay}"
+                    TextColor="{StaticResource Black}" />
+                <Image
+                    x:Name="imgField"
+                    Grid.Column="1"
+                    Margin="0,7"
+                    Aspect="AspectFit"
+                    HeightRequest="30"
+                    HorizontalOptions="End"
+                    IsVisible="{Binding Icon, Source={x:Reference entryview}, Converter={StaticResource IsStringNotNullOrEmptyConverter}}"
+                    Source="{Binding Icon, Source={x:Reference entryview}}"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="30">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Command, Source={x:Reference entryview}}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+        </Border>
+        <Label
+            Grid.Row="2"
+            FontSize="Small"
+            IsVisible="{Binding Errors, Source={x:Reference entryview}, Converter={StaticResource HasErrorConverter}}"
+            Text="{Binding Errors, Source={x:Reference entryview}, Converter={StaticResource ErrorConverter}}"
+            TextColor="{StaticResource Red}"
+            VerticalOptions="Center" />
+    </Grid>
+</ContentView>
